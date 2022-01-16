@@ -3,7 +3,7 @@ const models = require('../models/calendarSchemas.js');
 const calendarController = {};
 
 calendarController.createEvent = async (req, res, next) => {
-  try{
+  try {
     let newEvent = await models.Event.create(req.body); //creates new event with schema from the request body
     return res.status(201).json({new_event: newevent}); //returns the newly created object back to the front end directly
   } catch{
@@ -12,10 +12,24 @@ calendarController.createEvent = async (req, res, next) => {
 };
 calendarController.getRecentEvents = async (req, res, next) => {
   try {
-    res.locals.allEvents = await models.Event.find({}).sort({_id:-1}).limit(50); //retrieve 50 most recent events and stores in locals
+    res.locals.recentEvents = await models.Event.find({}).sort({_id:-1}).limit(50); //retrieve 50 most recent events and stores in locals
     return next(); //send the events to front end via router
   } catch {
     return res.status(400).send('Failed to get recent events');
+  };
+};
+calendarController.getOneEvent = async (req, res, next) => {
+  try { 
+    let retrievedEvent;
+    if(req.query.id){
+      retrievedEvent = await models.Event.find({ _id: req.query.id})//if an id is provided find article by id
+    } else {
+      retrievedEvent = await models.Event.find(req.query)//if no id then find article by text search
+    };
+    res.locals.retrievedEvent = retrievedEvent;
+    return next();
+  } catch {
+      return res.status(400).send('Failed to retrieve event!');
   };
 };
 calendarController.getAllEvents = async (req, res, next) => {
@@ -36,9 +50,11 @@ calendarController.updateEvent = async (req, res, next) => {
 };
 calendarController.deleteEvent = async (req, res, next) => {
   try{
-    await models.Article.findOneAndDelete({ _id: req.params.id});//deletes event via ID
-    return res.status(201).send('Article deleted!');//sends string as a response
+    await models.Event.findOneAndDelete({ _id: req.params.id});//deletes event via ID
+    return res.status(201).send('Event deleted!');//sends string as a response directly to front end.
   } catch {
-    return res.status(400).send('Failed to delete article!');
+    return res.status(400).send('Failed to delete event!');
   };
 };
+
+module.exports = calendarController;
