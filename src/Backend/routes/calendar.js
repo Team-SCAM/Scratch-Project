@@ -19,7 +19,7 @@ router.put('/updateOne', calendarController.updateEvent, (req, res) => {
   return res.status(201).json({entries: res.locals.updatedEvent});
 });
 
-router.delete('/:id', calendarController.deleteArticle);
+router.delete('/:id', calendarController.deleteEvent);
 
 
 
