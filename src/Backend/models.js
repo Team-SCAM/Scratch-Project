@@ -13,6 +13,7 @@ dbName: 'myFirstDatabase'
   const Schema = mongoose.Schema;
 
   const eventSchema = new Schema({
+    date: String,
     title: String,
     body: String
   });
