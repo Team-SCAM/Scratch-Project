@@ -1,3 +1,14 @@
 .App {
 	text-align: center;
 }
+h1{
+	font-size: 45px;
+	font-family: 'Courier New', Courier, monospace;
+	color: lightcoral;
+}
+
+h2{
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 30px;
+	color: lightcoral;
+}
