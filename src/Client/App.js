@@ -13,13 +13,16 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { connect } from 'react-redux';
+import * as actions from './actions/actions';
 import "./App.css";
-import "./createEntry.js"
+import "./createEntry.js";
+import "babel-polyfill";
 
 const locales = {
     "en-US": require("date-fns/locale/en-US"),
@@ -28,60 +31,60 @@ const localizer = dateFnsLocalizer({
     format, parse, startOfWeek, getDay, locales,
 });
 
+const mapStateToProps = state => ({
+  totalEvents: state.workouts.totalEvents,
+  eventsList: state.workouts.eventsList
+})
+
+const mapDispatchToProps = dispatch => ({
+  createEvent: eventInfo => actions.createEventActionCreator(dispatch, eventInfo),
+  retrieveAllEvents: () => actions.retrieveAllEventsActionCreator(dispatch),
+  retrieveOneEvent: () => actions.retrieveOneEventActionCreator(dispatch)
+})
+
 const events = [
-    {
-        title: "Workout1",
-        allDay: true,
-        weight: Number,
-        reps: Number,
-        start: new Date(2021, 6, 0),
-        end: new Date(2021, 6, 0),
-    },
-    {
-        title: "Workout2",
-        weight: Number,
-        reps: Number,
-        start: new Date(2021, 6, 7),
-        end: new Date(2021, 6, 10),
-    },
-    {
-        title: "Workout3",
-        weight: Number,
-        reps: Number,
-        start: new Date(2021, 6, 20),
-        end: new Date(2021, 6, 23),
-    },
+    // {
+    //     title: "Workout1",
+    //     allDay: true,
+    //     weight: Number,
+    //     reps: Number,
+    //     start: new Date(2021, 6, 0),
+    //     end: new Date(2021, 6, 0),
+    // },
+    // {
+    //     title: "Workout2",
+    //     weight: Number,
+    //     reps: Number,
+    //     start: new Date(2021, 6, 7),
+    //     end: new Date(2021, 6, 10),
+    // },
+    // {
+    //     title: "Workout3",
+    //     weight: Number,
+    //     reps: Number,
+    //     start: new Date(2021, 6, 20),
+    //     end: new Date(2021, 6, 23),
+    // },
 ];
 
-const CreateEntry = ({handleClose, useInput}) => {
-    const [workout, workoutOnChange] = useInput('');
-    const [weight, weightOnChange] = useInput('');
-    const [height, heightOnChange] = useInput('');
-  
-   const handleSubmit = () =>{
-    const sendBody = { title: title, weight: weight, reps: reps, start: start, end: end}
-    fetch('/workout/new', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'Application/JSON'
-          },
-          body: JSON.stringify(sendBody)
-        })
-      .then(resp => resp.json())
-      .then(data => {
-        console.log(data);
-        })
-      .then(handleClose())
-   }
-}
 
-function App() {
+
+const App = (props) => {
     const [newEvent, setNewEvent] = useState({ title: "", weight: "", reps: "", start: "", end: "" });
     const [allEvents, setAllEvents] = useState(events);
 
+    useEffect(() => {
+      props.retrieveAllEvents()
+    }, [])
+
+    for(let i = 0; i < props.eventsList.length; i++){
+      events.push(props.eventsList[i]);
+    }
       
-    function handleAddEvent() {
-        setAllEvents([...allEvents, newEvent]);
+    const handleAddEvent = async () => {
+        // setAllEvents([...allEvents, newEvent]);
+        await props.createEvent(newEvent);
+        // await props.retrieveAllEvents();
     }
 
     return (
@@ -101,7 +104,7 @@ function App() {
                     Add Exercise
                 </button>
             </div>
-            <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 800, margin: "50px" }} />
+            <Calendar localizer={localizer} events={props.eventsList} startAccessor="start" endAccessor="end" style={{ height: 800, margin: "50px" }} />
         </div>
     );
 }
@@ -118,4 +121,4 @@ function App() {
 
 //DatePicker and Calendar were both react components that were installed.
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,13 +1,15 @@
 import * as types from '../constants/actionTypes';
 
 export const createEventActionCreator = (dispatch, eventInfo) => {
+  console.log('Event Info start date: ', eventInfo.start, typeof eventInfo.start);
+  console.log('Event info: ', eventInfo);
   fetch('http://localhost:3000/calendar/new', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ journal_entry: eventInfo })
+    body: JSON.stringify({ id: eventInfo._id, title: eventInfo.title, weight: eventInfo.weight, reps: eventInfo.reps, start: eventInfo.start, end: eventInfo.end })
   })
   .then(res=> res.json())
   .then(data => {
@@ -24,9 +26,10 @@ export const createEventActionCreator = (dispatch, eventInfo) => {
 }
 
 export const retrieveAllEventsActionCreator = dispatch => {
-  fetch('localhost:3000/calendar/retrieveAll')
+  fetch('http://localhost:3000/calendar/retrieveAll')
   .then(res => res.json())
   .then(data => {
+    console.log(data.entries);
     dispatch({
       type:types.GET_ALL_EVENTS,
       payload: data.entries,

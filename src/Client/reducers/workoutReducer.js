@@ -28,6 +28,19 @@ const workoutReducer = (state = initalState, action) => {
       };
     }
 
+    case types.CREATE_EVENT:{
+      totalEvents = state.totalEvents + 1;
+      eventsList = state.eventsList.slice();
+      eventsList.push(action.payload);
+
+      return {
+        ...state,
+        totalEvents,
+        eventsList,
+        newEvent: '', 
+      };
+    }
+
 
     default: {
       return state;
