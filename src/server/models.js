@@ -13,9 +13,12 @@ dbName: 'Sweat_Tracker'
   const Schema = mongoose.Schema;
 
   const eventSchema = new Schema({
-    date: String,
     title: String,
-    body: String
+    weight: Number,
+    reps: Number,
+    start: Date,
+    end: Date
+
   });
   const Event = mongoose.model('event', eventSchema);
 

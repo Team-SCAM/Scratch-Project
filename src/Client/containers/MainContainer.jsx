@@ -20,7 +20,7 @@ class MainContainer extends Component {
   render() {
     return(
       <div>
-
+        retrieveAllEvents();
       </div>
     )
   }

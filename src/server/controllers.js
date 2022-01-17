@@ -4,6 +4,7 @@ const calendarController = {};
 
 calendarController.createEvent = async (req, res, next) => {
   try {
+  console.log(req.body)
     let newEvent = await models.Event.create(req.body); //creates new event with schema from the request body //Miller: we may need to access req.body.journal_entry as that is how it is saved in actions.js line 10
     console.log(newEvent)
     return res.status(201).json({new_event: newEvent}); //returns the newly created object back to the front end directly
