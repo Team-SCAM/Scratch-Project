@@ -1,6 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import App from "./src/Client/App"
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import App from "./src/Client/App";
+import store from './src/Client/store';
 
 // import './index.css';
 // import reportWebVitals from './reportWebVitals';
@@ -17,4 +19,8 @@ import App from "./src/Client/App"
 
 //BACKEND ROCKS
 
-ReactDOM.render(<App/>,document.querySelector("#root"));
+// ReactDOM.render(<App/>,document.querySelector("#root"));
+render(
+  <Provider store={store}> <App /> </Provider>,
+  document.querySelector("#root")
+);

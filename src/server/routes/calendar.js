@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const calendarController = require ('../controllers.js')
 
 router.get('/recent', calendarController.getRecentEvents, (req, res) => {
   return res.status(201).json({entries: res.locals.recentEvents});
