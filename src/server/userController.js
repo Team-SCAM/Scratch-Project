@@ -23,19 +23,18 @@ userController.getAllUsers = (req, res, next) => {
 /**
 * createUser - create and save a new User into the database.
 */
-userController.createUser = (req, res, next) => {
+userController.createUser = async (req, res, next) => {
   // write code here
   const {username, password} = req.body;
   if (!username || !password) return next('Missing username or password in userController.createUser');
-  models.User.create({username, password}, (err, user) => {
-    if (err) {
-      return res.render('../client/signup', {error: err});
-    } else {
-      // save the user document for accessing it in following middlewares
-      res.locals.user = user;
-      return next();
-    }
-  });
+  console.log(username, password)
+  try{
+  const user = await models.User.create({username, password})
+  res.locals.user = user
+  return next()
+  }
+  catch(error){
+  console.log(error)}
 };
 
 
@@ -51,19 +50,23 @@ userController.verifyUser = (req, res, next) => {
   if (!username || !password) return next('Missing username or password in userController.verifyUser');
 
   models.User.findOne({username}, (err, user) => {
+    console.log(user)
     if (err) {
       // database error
       return next('Error in userController.verifyUser: ' + JSON.stringify(err));
     } else if (!user) {
       // no user was found
-      res.redirect('/signup')
-    } else {
+      res.send('false')
+      //res.redirect('localhost:3000/signup')
+    } else {console.log(password, user.password)
       // user was found, compare the password to the hashed one
       bcrypt.compare(password, user.password)
+        //const result = password === user.password
         .then(result => {
           if (!result) {
+            console.log(result)
             // password did not match
-            res.redirect('/signup')
+            res.send('false password')
           }
           else {
             // password did match, save user for following middlewares

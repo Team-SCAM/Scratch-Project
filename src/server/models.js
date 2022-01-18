@@ -56,7 +56,7 @@ userSchema.pre('save', function(next) {
   bcrypt.hash(this.password, SALT_WORK_FACTOR, (err, hash) => {
     if (err) return next(err);
     // reassign the document's password to it's hashed version
-    this.passwrod = hash;
+    this.password = hash;
     // this next call makes mongoose move on to the saving the document
     return next();
   })

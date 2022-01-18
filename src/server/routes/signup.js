@@ -9,7 +9,7 @@ router.post('/',
   sessionController.startSession,
   cookieController.setSSIDCookie,
   (req, res) => {
-    res.redirect('http://localhost:3000/calendar/retrieveAll')
+    res.redirect('http://localhost:8080')
   });
 
 
