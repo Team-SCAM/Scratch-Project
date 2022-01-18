@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
-const MONGO_URI = 'mongodb+srv://moore76sc:Tomoe288476!@cluster0.gqcrs.mongodb.net/Sweat_Tracker?retryWrites=true&w=majority'
+const MONGO_URI = 'mongodb link'
 
 mongoose.connect(MONGO_URI, {
 useNewUrlParser: true,
 useUnifiedTopology: true,
-dbName: 'Sweat_Tracker'
+dbName: 'mongo db link'
 })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
