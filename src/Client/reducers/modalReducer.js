@@ -5,6 +5,7 @@ const initialState = {
   username : '',
   password: '',
   eventInfo: {},
+  display: {},
 }
 
 const modalReducer = (state = initialState, action) => {
@@ -12,6 +13,7 @@ const modalReducer = (state = initialState, action) => {
   let username;
   let password;
   let eventInfo;
+  let display;
 
   switch(action.type){
     case types.DISPLAY_LOGIN_MODAL: {
@@ -21,7 +23,11 @@ const modalReducer = (state = initialState, action) => {
 
     }
     case types.HANDLE_DISPLAY_EVENT: {
-
+      display = action.payload
+      return{
+        ...state,
+        display,
+      }
     }
     case types.HANDLE_SIGN_UP: {
 

@@ -1,6 +1,5 @@
 import React from 'react'
-const UpdateEvent = () => { //replace onChange values with a setUpdateEvent?  I'll fix this tomorrow with a form and submit button
- 
+const UpdateEvent = () => {
   return (
   <div>
     <input type="text" placeholder= {retrievedEvent.title} style={{ width: "20%", marginRight: "10px" }} value={newEvent.title} onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
@@ -13,6 +12,5 @@ const UpdateEvent = () => { //replace onChange values with a setUpdateEvent?  I'
     </button>
   </div>
   )
-
 }
 export default UpdateEvent;
