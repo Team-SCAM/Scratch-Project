@@ -2,6 +2,10 @@
 	text-align: center;
 }
 
+.react-calendar {
+	border: 1px solid black;
+  }
+
 .AddExercise{
 	background-color: rgb(144, 190, 219);
 	color: white;
@@ -26,6 +30,36 @@ h2{
 	color: lightcoral;
 }
 
+h3{
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 25px;
+	color:  rgb(87, 127, 173);
+
+}
+img{
+	position: center;
+	border-radius: 50%;
+    right: 570px;
+    bottom: 250px;
+    width: 220px;
+    height: 180px;
+	
+}
+
+.button{
+
+	background-color: lightcoral;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+
+}
 button {
 	background-color: rgb(87, 127, 173);
 	border: none;
@@ -54,13 +88,13 @@ button {
 .modal-main {
   position:fixed;
   font-size: 16px;
-  background: rgb(247, 238, 142);
-  width: 80%;
-  height: 80%;
+  background: rgb(228, 228, 143);
+  width: 50%;
+  height: 40%;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
-  z-index: 9999;
+  /* z-index: 9999; */
 }
 
 .display-block {

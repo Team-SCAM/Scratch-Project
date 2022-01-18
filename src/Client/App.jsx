@@ -36,18 +36,15 @@ const mapDispatchToProps = dispatch => ({
   retrieveAllEvents: () => actions.retrieveAllEventsActionCreator(dispatch),
   retrieveOneEvent: id => actions.retrieveOneEventActionCreator(dispatch, id),
   setShowModal: modalBool => dispatch(actions.setShowModalActionCreator(modalBool)),
+  setDisplay: display => dispatch(actions.handleDisplayEventActionCreator(display)),
 })
 
 const events = [];
-
-
 const App = (props) => {
     const [newEvent, setNewEvent] = useState({ title: "", weight: "", reps: "", start: "", end: "" });
     const [allEvents, setAllEvents] = useState(events);
     const [display, setDisplay] = useState();
     const showHideclassName = props.showModal ? 'display-block' : 'display-none';
-
-    
     useEffect(() => {
       props.retrieveAllEvents()
     }, [])
@@ -64,7 +61,6 @@ const App = (props) => {
       props.showModal === false ? props.setShowModal(true) : props.setShowModal(false)
     };
 
-    //can we just call our props.retrieveOneEvent and pass in our login ID to display? Would save a lot of time. 
     const handleLogin = () => {
       setDisplay (
         <div>
@@ -73,32 +69,18 @@ const App = (props) => {
       )
       props.showModal === false ? props.setShowModal(true) : props.setShowModal(false)
     };
- 
-    
+
     const handleDisplayEvent = () => {
       if(id) {
-        // fetch(`http://localhost:8080/articles/retrieveOne?id=${id}`)
-        // .then(res => res.json())
-        // .then(
-        // (result) => {
-        //   props.retrieveOneEvent(result) 
-        // },
-        // (error) => {
-        //   props.retrieveOneEvent({title: `Failed to load article!${error}`})
-        // }
-        // )
-        // .then(props.showModal === false ? props.setShowModal(true) : props.setShowModal(false))
-
         props.retrieveOneEvent(id)
-        //from here, our retrieved event is accessible via props.retrievedEvent
     };
       setDisplay (
         <div>
           <RetrievedEvent handleClose={props.setShowModal} updateEvent={props.updateEvent} retrievedEvent={props.retrievedEvent}/>   
         </div>
       )
+      props.showModal === false ? props.setShowModal(true) : props.setShowModal(false)
     }
-    //can we just call our props.retrieveOneEvent and pass in our signUp ID to display? Would save a lot of time. 
     const handleSignUp = (props) => {
       setDisplay (
         <div>
@@ -107,7 +89,6 @@ const App = (props) => {
       )
     props.showModal === false ? props.setShowModal(true) : props.setShowModal(false)
     }
-
     return (
         <div className="App"
         style={{ 
@@ -151,7 +132,6 @@ const App = (props) => {
         
     );
 }
-
 //hooks are designed to add state into a functional component without having to convert it into a class
 //useState declares a state variable (our state is called newEvent)
 //doesn't have to be an object, but can be (we use object anyways)
