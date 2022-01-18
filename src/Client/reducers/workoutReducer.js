@@ -5,6 +5,7 @@ const initalState = {
   eventsList: [],
   lastEventId: 0,
   newEvent: '',
+  retrievedEvent: [],
 }
 
 const workoutReducer = (state = initalState, action) => {
@@ -12,6 +13,7 @@ const workoutReducer = (state = initalState, action) => {
   let eventsList;
   let lastEventId;
   let newEvent;
+  let retrievedEvent;
 
   switch(action.type) {
     case types.GET_ALL_EVENTS: {
@@ -27,8 +29,7 @@ const workoutReducer = (state = initalState, action) => {
         newEvent: '',
       };
     }
-
-    case types.CREATE_EVENT:{
+    case types.CREATE_EVENT: {
       totalEvents = state.totalEvents + 1;
       eventsList = state.eventsList.slice();
       eventsList.push(action.payload);
@@ -40,8 +41,26 @@ const workoutReducer = (state = initalState, action) => {
         newEvent: '', 
       };
     }
+    case types.GET_ONE_EVENT: {
+      retrievedEvent = state.retrievedEvent.slice();
+      retrievedEvent.push(action.payload);
 
-
+      return {
+        ...state,
+        retrievedEvent,
+        newEvent: '',
+      }
+    }
+    case types.UPDATE_EVENT: {
+      //get one should be called before this to identify which event to update, then we pass that event into our action creator to be our payload
+      //maybe remove old event from eventsList then push the updated event onto the list?
+      retrievedEvent = state.retrievedEvent.slice();
+      retrievedEvent[0]= action.payload;
+      return {
+        ...state,
+        retrievedEvent,
+      }
+    }
     default: {
       return state;
     }
