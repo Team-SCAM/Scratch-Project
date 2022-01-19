@@ -3,15 +3,22 @@ const path = require('path');
 const app = express();
 const calendarRouter = require('./routes/calendar.js')
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const signupRouter = require('./routes/signup.js')
+const loginRouter = require('./routes/login.js')
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(express.static(path.resolve(__dirname, '../src')));
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use('/calendar', calendarRouter);
+app.use('/signup', signupRouter);
+app.use('/login', loginRouter);
 
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, '../src/index.html'));
